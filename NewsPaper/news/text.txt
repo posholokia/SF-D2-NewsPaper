@@ -1,0 +1,50 @@
+venv\scripts\activate
+cd newspaper
+py manage.py makemigrations
+py manage.py migrate
+py manage.py shell
+------------------------------------------------------------------------------------------------------------------------
+### создаем пользователей, авторов, 3 поста, 4 категории и 4 комментария
+
+from news.models import *
+u1 = User.objects.create_user('Желязны')
+u2 = User.objects.create_user('Лукьяненко')
+a1 = Author.objects.create(author=u1)
+a2 = Author.objects.create(author=u2)
+Category.objects.create(name='Новости')
+Category.objects.create(name='Политика')
+Category.objects.create(name='Спорт')
+Category.objects.create(name='Кинематограф')
+p1 = Post.objects.create(post_author=a1, post_type='NW', post_title='О том что творится в мире.', post_text='Последние ситуации в стране')
+p2 = Post.objects.create(post_author=a1, post_type='AR', post_title='Чемпионат мира по футболу', post_text='Финальный матч пройдет между командами')
+p3 = Post.objects.create(post_author=a1, post_type='AR', post_title='Новости Фонда кино', post_text='Что опять наснимал Фонд кино')
+Post.objects.get(id=1).post_category.add(Category.objects.get(id=1))
+Post.objects.get(id=1).post_category.add(Category.objects.get(id=2))
+Post.objects.get(id=2).post_category.add(Category.objects.get(id=3))
+Post.objects.get(id=3).post_category.add(Category.objects.get(id=4))
+c1 = Comment.objects.create(comment_post=p1, comment_user=u1, comment_text='Вот это новость!')
+c2 = Comment.objects.create(comment_post=p1, comment_user=u2, comment_text='Да ну бред какой-то')
+c3 = Comment.objects.create(comment_post=p2, comment_user=u2, comment_text='Никогда не интересовался футболом')
+c4 = Comment.objects.create(comment_post=p3, comment_user=u1, comment_text='И вот на это идут наши налоги =/')
+p1.like()
+p2.dislike()
+p3.like()
+c1.like()
+c1.dislike()
+c2.dislike()
+c3.like()
+c4.dislike()
+a1.update_rating()
+a2.update_rating()
+------------------------------------------------------------------------------------------------------------------------
+### Вывод автора с наибольшим рейтингом
+Author.objects.all().order_by('-author_rate').values('author__username', 'author_rate')[0]
+------------------------------------------------------------------------------------------------------------------------
+### Вывод статьи с наибольшим рейтингом
+top_post = Post.objects.all().order_by('-post_rating').values('post_author__author__username', 'post_date', 'post_title')[0]
+### и превью этой статьи
+Post.objects.all().order_by('-post_rating')[0].preview()
+------------------------------------------------------------------------------------------------------------------------
+### вывод комментариев к статье с наибольшим рейтингом
+Comment.objects.filter(comment_post__post_title=top_post['post_title']).values('comment_date', 'comment_user', 'comment_rating', 'comment_text')
+
