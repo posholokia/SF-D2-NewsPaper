@@ -1,7 +1,7 @@
 from django.contrib.auth.models import User
-from django.db import models  # импорт
+from django.db import models
 from datetime import datetime
-from django.db.models import Sum, Max
+from django.db.models import Sum
 
 
 class Author(models.Model):
@@ -37,9 +37,15 @@ class Author(models.Model):
         self.author_rate = author_post_rating * 3 + author_comment_rating + user_comment_rating
         self.save()
 
+    def __str__(self):
+        return f'{self.author}'
+
 
 class Category(models.Model):
     name = models.CharField(max_length=64, unique=True)
+
+    def __str__(self):
+        return f'{self.name}'
 
 
 class Post(models.Model):
@@ -67,7 +73,10 @@ class Post(models.Model):
         self.save()
 
     def preview(self):
-        return f'{self.post_text[0:123]}...'
+        return f'{self.post_text[0:19]}...'
+
+    def __str__(self):
+        return f'{self.post_title}'
 
 
 class PostCategory(models.Model):
@@ -90,4 +99,6 @@ class Comment(models.Model):
         self.comment_rating -= 1
         self.save()
 
+    def __str__(self):
+        return f'{self.comment_user}: {self.comment_post}'
 
