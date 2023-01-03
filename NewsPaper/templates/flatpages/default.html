@@ -25,7 +25,10 @@
                 </div>
             </div>
         </nav>
+
+
         <!-- Header-->
+        {% block header %}
         <header class="py-5">
             <div class="container px-lg-5">
                 <div class="p-4 p-lg-5 bg-light rounded-3 text-center">
@@ -37,16 +40,16 @@
                 </div>
             </div>
         </header>
+        {% endblock header %}
         <!-- Page Content-->
         <section class="pt-4">
             <div class="container px-lg-5">
-                <!-- Page Features-->
-                <div class="row gx-lg-5">
-                    <!-- Выводим список новостей -->
-                    {% block content %}
+                <!--Выводим список новостей-->
+                {% block search %}
+                {% endblock search %}
+                {% block content %}
+                {% endblock content %}
 
-                    {% endblock content %}
-                </div>
             </div>
         </section>
         <!-- Footer-->

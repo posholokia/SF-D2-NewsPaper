@@ -1,0 +1,14 @@
+{# Наследуемся от главной страницы, и добавим в нее форму поиска #}
+{% extends "./news.html" %}
+
+{# скрываем шапку #}
+{% block header %}
+{% endblock header %}
+
+{% block search %}
+<form action="" method="get">
+   {{ filterset.form.as_p }}
+   <input type="submit" value="Найти" />
+</form>
+{% endblock search %}
+
