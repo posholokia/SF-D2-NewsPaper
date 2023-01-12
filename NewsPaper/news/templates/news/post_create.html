@@ -4,11 +4,11 @@
 {% endblock header %}
 
 {% block content %}
-<h1>Удаление поста</h1>
+<h1>Создание поста</h1>
 <hr>
 <form action="" method="post">
     {% csrf_token %}
-    <p>Удаляем "{{ object.post_title }}"?</p>
-    <input type="submit" value="Delete" />
+    {{ form.as_p }}
+    <input type="submit" value="Save" />
 </form>
 {% endblock content %}

@@ -64,4 +64,4 @@ class PostCreate(PermissionRequiredMixin, CreateView):
     permission_required = ('news.change_product',)
     form_class = PostForm
     model = Post
-    template_name = 'news/post_edit.html'
+    template_name = 'news/post_create.html'

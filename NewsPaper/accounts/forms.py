@@ -8,7 +8,7 @@ from django.contrib.auth.models import Group
 class CustomSignupForm(SignupForm):
     def save(self, request):
         user = super().save(request)
-        common_users = Group.objects.get(name="простые пользователи")
+        common_users = Group.objects.get(name="Читатели")
         user.groups.add(common_users)
         return user
 
