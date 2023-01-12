@@ -9,4 +9,5 @@
 {{ post.post_date|date:'d M Y' }}
 <br>
 {{ post.post_text|censor }}
+<p><a href="{% url 'post_update' pk=post.id %}">Изменить</a>|<a href="{% url 'post_delete' pk=post.id %}">Удалить</a></p>
 {% endblock content %}
