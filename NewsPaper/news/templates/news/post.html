@@ -9,5 +9,13 @@
 {{ post.post_date|date:'d M Y' }}
 <br>
 {{ post.post_text|censor }}
-<p><a href="{% url 'post_update' pk=post.id %}">Изменить</a>|<a href="{% url 'post_delete' pk=post.id %}">Удалить</a></p>
+
+<p>
+    {% if perms.news.change_post %}
+    <a href="{% url 'post_update' pk=post.id %}">Изменить</a>|
+    {% endif %}
+    {% if perms.simpleapp.delete_post %}
+    <a href="{% url 'post_delete' pk=post.id %}">Удалить</a>
+    {% endif %}
+</p>
 {% endblock content %}

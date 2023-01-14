@@ -1,8 +1,8 @@
-venv\scripts\activate
+venv/bin/activate
 cd newspaper
-py manage.py makemigrations
-py manage.py migrate
-py manage.py shell
+python3 manage.py makemigrations
+python3 manage.py migrate
+python3 manage.py shell
 ------------------------------------------------------------------------------------------------------------------------
 ### создаем пользователей, авторов, 3 поста, 4 категории и 4 комментария
 
