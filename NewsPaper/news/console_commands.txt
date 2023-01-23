@@ -1,7 +1,13 @@
-venv/bin/activate
-cd newspaper
+python3 -m venv venv
+source venv/bin/activate
+pip install django
+python -m pip install django-filter
+pip install django-allauth
+cd NewsPaper
+python3 manage.py runserver
 python3 manage.py makemigrations
 python3 manage.py migrate
+python3 manage.py createsuperuser
 python3 manage.py shell
 ------------------------------------------------------------------------------------------------------------------------
 ### создаем пользователей, авторов, 3 поста, 4 категории и 4 комментария
@@ -48,3 +54,12 @@ Post.objects.all().order_by('-post_rating')[0].preview()
 ### вывод комментариев к статье с наибольшим рейтингом
 Comment.objects.filter(comment_post__post_title=top_post['post_title']).values('comment_date', 'comment_user', 'comment_rating', 'comment_text')
 
+Post.objects.get(id=1).post_category.all()[0].name
+Post.objects.get(id=self.kwargs['pk']).post_category
+Category.objects.get(id=1).subscribes.remove(ad)
+Category.objects.get(id=2).subscribes.remove(ad)
+Category.objects.get(id=3).subscribes.remove(ad)
+Category.objects.get(id=4).subscribes.remove(ad)
+
+<!--    <a href="{% url 'subscribe' category.id %}" class="btn btn-primary btn-lg">"{{ category }}"</a>-->
+<!--    <a href="{% url 'subscribe' category.id %}" class="btn btn-primary btn-lg">"{{ category }}"</a>-->

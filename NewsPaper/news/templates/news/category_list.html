@@ -1,0 +1,45 @@
+{% extends 'flatpages/default.html' %}
+{% load custom_filters %}
+
+
+{% block content %}
+<!-- Каждый пост из БД выводим в рамке на странице -->
+<div class="row gx-lg-5">
+{% for post in category_list_view %}
+    <div class="col-lg-6 col-xxl-4 mb-5">
+        <div class="card bg-light border-0 h-100">
+            <div class="card-body text-center p-4 p-lg-5 pt-0 pt-lg-0">
+                <div class="bg-primary bg-gradient text-black rounded-3 mb-4 mt-n0">{{ post.post_date|date:'d M Y' }}</div>
+                <a href="{% url 'post_detail' pk=post.id %}"><h2 class="fs-4 fw-bold">{{ post.post_title|censor }}</h2></a>
+                <p class="mb-0">{{ post.preview|censor }}</p>
+            </div>
+        </div>
+    </div>
+{% endfor %}
+</div>
+<p>Подписаться на новые статьи из категории {{ post.post_category.all|first }}</p>
+
+    <p class="test-center" ><a href="{% url 'subscribe' category.id %}" class="btn btn-primary btn-lg">Подписаться</a></p>
+
+{% if page_obj.has_previous %}
+    <a href="?page=1">1</a>
+        {% if page_obj.previous_page_number != 1 %}
+            ...
+            <a href="?page={{ page_obj.previous_page_number }}">{{ page_obj.previous_page_number }}</a>
+        {% endif %}
+    {% endif %}
+
+    {# Информация о текущей странице #}
+    {{ page_obj.number }}
+
+    {# Информация о следующих страницах #}
+    {% if page_obj.has_next %}
+        <a href="?page={{ page_obj.next_page_number }}">{{ page_obj.next_page_number }}</a>
+        {% if paginator.num_pages != page_obj.next_page_number %}
+            ...
+            <a href="?page={{ page_obj.paginator.num_pages }}">{{ page_obj.paginator.num_pages }}</a>
+        {% endif %}
+    {% endif %}
+{% endblock content %}
+<!--{% if is_not_subscriber %}-->
+<!--{% endif %}-->

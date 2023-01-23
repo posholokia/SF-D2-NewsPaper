@@ -12,10 +12,35 @@
 
 <p>
     {% if perms.news.change_post %}
-    <a href="{% url 'post_update' pk=post.id %}">Изменить</a>|
+    <a href="{% url 'post_update' pk=post.id %}">Изменить</a> |
     {% endif %}
     {% if perms.simpleapp.delete_post %}
     <a href="{% url 'post_delete' pk=post.id %}">Удалить</a>
     {% endif %}
 </p>
+
+{% for category in post.post_category.all %}
+    {% if is_not_subscriber %}
+        <p>Подписаться на новые статьи из категории {{ category }}
+            <form method="POST">
+                {% csrf_token %}
+                <p><input type="submit" name="btn" value="Подписаться"></p>
+                <p><input type="hidden" name="subscribe" value="{{ category.id }}"></p>
+            </form>
+
+    {% endif %}
+{% endfor %}
+
+{% for category in post.post_category.all %}
+    {% if not is_not_subscriber %}
+
+        <p>Отписаться на новые статьи из категории {{ category }}
+            <form method="POST">
+                {% csrf_token %}
+                <p><input type="submit" name="btn2" value="Отписаться"></p>
+                <p><input type="hidden" name="unsubscribe" value="{{ category.id }}"></p>
+            </form>
+
+    {% endif %}
+{% endfor %}
 {% endblock content %}

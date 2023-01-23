@@ -12,3 +12,4 @@ class PostForm(forms.ModelForm):
             'post_title',
             'post_text'
         ]
+
