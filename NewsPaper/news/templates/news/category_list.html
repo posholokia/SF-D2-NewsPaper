@@ -3,6 +3,14 @@
 
 
 {% block content %}
+<p>Подписаться на новые статьи из категории {{ category }}</p>
+{% if is_not_subscriber %}
+    <p class="test-center" ><a href="{% url 'subscribe' category.id %}" class="btn btn-primary btn-lg">Подписаться</a></p>
+{% endif %}
+
+{% if not is_not_subscriber %}
+    <p class="test-center" ><a href="{% url 'subscribe' category.id %}" class="btn btn-primary btn-lg">Отписаться</a></p>
+{% endif %}
 <!-- Каждый пост из БД выводим в рамке на странице -->
 <div class="row gx-lg-5">
 {% for post in category_list_view %}
@@ -17,9 +25,9 @@
     </div>
 {% endfor %}
 </div>
-<p>Подписаться на новые статьи из категории {{ post.post_category.all|first }}</p>
 
-    <p class="test-center" ><a href="{% url 'subscribe' category.id %}" class="btn btn-primary btn-lg">Подписаться</a></p>
+
+
 
 {% if page_obj.has_previous %}
     <a href="?page=1">1</a>
@@ -41,5 +49,3 @@
         {% endif %}
     {% endif %}
 {% endblock content %}
-<!--{% if is_not_subscriber %}-->
-<!--{% endif %}-->

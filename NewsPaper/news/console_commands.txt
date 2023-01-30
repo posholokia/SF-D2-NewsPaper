@@ -9,6 +9,7 @@ python3 manage.py makemigrations
 python3 manage.py migrate
 python3 manage.py createsuperuser
 python3 manage.py shell
+python3 manage.py runapscheduler
 ------------------------------------------------------------------------------------------------------------------------
 ### создаем пользователей, авторов, 3 поста, 4 категории и 4 комментария
 
@@ -61,5 +62,27 @@ Category.objects.get(id=2).subscribes.remove(ad)
 Category.objects.get(id=3).subscribes.remove(ad)
 Category.objects.get(id=4).subscribes.remove(ad)
 
-<!--    <a href="{% url 'subscribe' category.id %}" class="btn btn-primary btn-lg">"{{ category }}"</a>-->
-<!--    <a href="{% url 'subscribe' category.id %}" class="btn btn-primary btn-lg">"{{ category }}"</a>-->
+User.objects.all()
+
+u1 = User.objects.get(id=7).email
+u2 = User.objects.get(id=8)
+u3 = User.objects.get(id=9)
+u4 = User.objects.get(id=10)
+
+u1.email
+u2.email
+u3.email
+u4.email
+
+Category.objects.get(id=1).subscribes.add(u1)
+Category.objects.get(id=1).subscribes.add(u2)
+Category.objects.get(id=2).subscribes.add(u2)
+Category.objects.get(id=2).subscribes.add(u3)
+Category.objects.get(id=3).subscribes.add(u3)
+Category.objects.get(id=3).subscribes.add(u4)
+Category.objects.get(id=4).subscribes.add(u4)
+Category.objects.get(id=4).subscribes.add(u1)
+
+Category.objects.get(id=4).subscribes.all()[0].email
+
+

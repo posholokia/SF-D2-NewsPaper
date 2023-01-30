@@ -1,8 +1,9 @@
 from django.contrib.auth.models import User
 from django.db import models
-from datetime import datetime
+
 from django.db.models import Sum
 from django.urls import reverse
+
 
 
 class Author(models.Model):
@@ -44,7 +45,7 @@ class Author(models.Model):
 
 class Category(models.Model):
     name = models.CharField(max_length=64, unique=True)
-    subscribes = models.ManyToManyField(User, blank=True, related_name='categories')
+    subscribers = models.ManyToManyField(User, blank=True, related_name='categories')
 
     def __str__(self):
         return f'{self.name}'
@@ -83,6 +84,7 @@ class Post(models.Model):
     def get_absolute_url(self):
         return reverse('post_detail', args=[str(self.id)])
 
+        
 
 class PostCategory(models.Model):
     through_post = models.ForeignKey(Post, on_delete=models.CASCADE)
