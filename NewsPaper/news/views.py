@@ -66,7 +66,7 @@ class PostCreate(PermissionRequiredMixin, CreateView):
         today = datetime.date.today()
         # получаем QueryDict всех статей автора за сегодня
         number_of_posts = Post.objects.filter(post_author=author_name, post_date__gte=today).all()
-        if len(number_of_posts) > 30:  # если статей больше 3, отправляем на страницу с информацией об ошибке
+        if len(number_of_posts) > 3:  # если статей больше 3, отправляем на страницу с информацией об ошибке
             return redirect('post_limit')
         else:  # иначе сохраняем в БД
             return super().form_valid(form)
