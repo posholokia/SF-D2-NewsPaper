@@ -27,28 +27,18 @@ def send_mail_post(post_text, pk, title, subscribers):
         msg.send()
 
    
-# @receiver(m2m_changed, sender=PostCategory)
-# def notify_managers_appointment(sender, instance, **kwargs):
-#     if kwargs['action'] == 'post_add':
-#         subscribers = []  # список подписчиков
-#         categories = instance.post_category.all()
-#         for category in categories:
-#             subscribers += category.subscribers.all()  # заполняем подписчиками категории
-#             # удаляем дублирование подписчиков, когда юзер подписан на несколько категорий,
-#             # присвоенных созданной статье, чтобы не дублировать отправку писем
-#             subscribers = list(set(subscribers))
-#
-#         send_mail_post(instance.post_text, instance.pk, instance.post_title, subscribers)
-       
-       
-# @receiver(pre_save, sender=Post)
-# def daily(sender, *args, **kwargs):
-#     print('sender: ', sender, '\nargs:', args, '\nkwargs: ', kwargs)
-#     print(kwargs['instance'].post_author)
-#     author = kwargs['instance'].post_author
-#     today = datetime.date.today()
-#     a = Post.objects.filter(post_author=author, post_date__gte=today).all()
-#     if a > 3:
-#         print(len(a))
+@receiver(m2m_changed, sender=PostCategory)
+def notify_managers_appointment(sender, instance, **kwargs):
+    if kwargs['action'] == 'post_add':
+        subscribers = []  # список подписчиков
+        categories = instance.post_category.all()
+        for category in categories:
+            subscribers += category.subscribers.all()  # заполняем подписчиками категории
+            # удаляем дублирование подписчиков, когда юзер подписан на несколько категорий,
+        # присвоенных созданной статье, чтобы не дублировать отправку писем
+        subscribers = list(set(subscribers))
     
+        send_mail_post(instance.post_text, instance.pk, instance.post_title, subscribers)
+       
+
     
