@@ -5,7 +5,6 @@ from django.db.models import Sum
 from django.urls import reverse
 
 
-
 class Author(models.Model):
     author = models.OneToOneField(User, on_delete=models.CASCADE)
     author_rate = models.SmallIntegerField(default=0)
@@ -84,7 +83,6 @@ class Post(models.Model):
     def get_absolute_url(self):
         return reverse('post_detail', args=[str(self.id)])
 
-        
 
 class PostCategory(models.Model):
     through_post = models.ForeignKey(Post, on_delete=models.CASCADE)

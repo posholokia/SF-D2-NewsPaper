@@ -15,7 +15,7 @@ class NewsList(ListView):
     template_name = 'news/news.html'
     context_object_name = 'news'
     paginate_by = 10
-
+    
 
 class ViewNews(DetailView):
     model = Post
@@ -58,7 +58,7 @@ class PostCreate(PermissionRequiredMixin, CreateView):
     form_class = PostForm
     model = Post
     template_name = 'news/post_create.html'
-   
+
     # Ограничение на количетво новостей в сутки
     def form_valid(self, form):
         user_name = self.request.user  # получаем текущего юзера
@@ -66,12 +66,16 @@ class PostCreate(PermissionRequiredMixin, CreateView):
         today = datetime.date.today()
         # получаем QueryDict всех статей автора за сегодня
         number_of_posts = Post.objects.filter(post_author=author_name, post_date__gte=today).all()
-        if len(number_of_posts) > 30:  # если статей больше 3, отправляем на страницу с информацией об ошибке
+        if len(number_of_posts) > 3:  # если статей больше 3, отправляем на страницу с информацией об ошибке
             return redirect('post_limit')
         else:  # иначе сохраняем в БД
+            form = PostForm(self.request.POST)  # получаем значения полей fields из формы
+            post = form.save(commit=False)  # форму нужно дополнить автором
+            post.post_author = author_name  # post_author - залогиненый автор
+            post.save()
             return super().form_valid(form)
-        
 
+    
 class AllCategoriesList(ListView):
     model = Category
     template_name = 'news/all_categories.html'
@@ -86,7 +90,6 @@ class CategoryList(ListView):
     def get_queryset(self):
         self.post_category = get_object_or_404(Category, id=self.kwargs['pk'])
         queryset = Post.objects.filter(post_category=self.post_category).order_by('-post_date')
-        print(self.post_category, self.kwargs)
         return queryset
 
     def get_context_data(self, **kwargs):
